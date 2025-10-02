@@ -3,8 +3,8 @@
 GOOD URBANITE is a full-stack web application where users can explore, download, buy, and favorite urban posters.
 It includes user authentication, role-based access, and a clean API backend built with Node.js, Express, and MongoDB, with a React + Chakra UI frontend.
 
-# 🚀 Features
 
+# 🚀 Features
 ## 👤 Authentication
 - User registration and login with JWT.
 - Passwords securely hashed with bcrypt.
@@ -20,7 +20,6 @@ It includes user authentication, role-based access, and a clean API backend buil
 - Favorites are unique per user and persist in the database.
 
 ## 🛠️ Tech Stack
-
 ### Backend:
 - Node.js
 - Express.js
@@ -51,6 +50,7 @@ Ensure you have the following installed:
   
 
 # 🔗 API Endpoints
+
 ## 👤 Users (/api/v1/users)
 - POST /register → Register new user
 - POST /login → Login & receive JWT
@@ -72,11 +72,11 @@ Ensure you have the following installed:
 - GET / → Get all favorites for logged-in user
 - DELETE /:posterId → Remove poster from favorites
 
-## 🛡️ Authentication & Roles
+## Authentication & Roles
 Users authenticate via JWT (Authorization: Bearer <token>).
 Middleware:
 - isAuth → Ensures the user is logged in.
 - isAdmin → Ensures the user has role ADMIN.
 
-## 👨‍💻 Author
+## Author
 GOOD URBANITE – Built with ❤️ by Lars Sorensen
