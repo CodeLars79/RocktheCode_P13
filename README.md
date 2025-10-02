@@ -1,7 +1,7 @@
 # GOOD URBANITE
 
 GOOD URBANITE is a full-stack web application where users can explore, download, buy, and favorite urban posters.
-It includes user authentication, role-based access, and a clean API backend built with Node.js, Express, and MongoDB, with a React + Chakra UI frontend.
+It includes user authentication, role-based access, and an API backend built with Node.js, Express, and MongoDB, with a React + Chakra UI frontend.
 
 
 # 🚀 Features
