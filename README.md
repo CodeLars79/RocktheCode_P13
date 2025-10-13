@@ -5,19 +5,27 @@ It includes user authentication, role-based access, and an API backend built wit
 
 
 # 🚀 Features
-## 👤 Authentication
+## Authentication
 - User registration and login with JWT.
 - Passwords securely hashed with bcrypt.
 - Role-based access (USER, ADMIN).
 
-## 🖼️ Posters
+## Posters
 - Public access to view all posters.
 - Authenticated users can download free posters or buy paid ones.
-- Admins can manage posters (CRUD).
+- Redirection to Stripe API check-out.
+- Admins can manage posters.
 
-## ❤️ Favorites
+## Favorites
 - Users can save/unsave posters to their favorites.
 - Favorites are unique per user and persist in the database.
+
+## Users
+- Users can manage profiles (delete).
+
+## Reviews
+- Public access to view all reviews.
+- Admins can manage reviews.
 
 ## 🛠️ Tech Stack
 ### Backend:
@@ -32,7 +40,6 @@ It includes user authentication, role-based access, and an API backend built wit
 ### Frontend:
 - React
 - Vite
-- Chakra UI
 - CSS 
 
 ## ⚙️ Installation & Setup
@@ -54,10 +61,12 @@ Ensure you have the following installed:
 ## 👤 Users (/api/v1/users)
 - POST /register → Register new user
 - POST /login → Login & receive JWT
+- POST /admin → Login & receive JWT (Admin only)
+- GET /me → Get user info (self)
 - GET / → Get all users (Admin only)
 - GET /:id → Get user by ID (self or admin)
-- PUT /:id → Update user (self or admin)
-- DELETE /:id → Delete user (self or admin)
+- PUT /:id → Update user (self)
+- DELETE /:id → Delete user (self)
 
 ## 🖼️ Posters (/api/v1/posters)
 - GET / → Get all posters
@@ -65,12 +74,20 @@ Ensure you have the following installed:
 - PUT /:id → Update poster (Admin only)
 - DELETE /:id → Delete poster (Admin only)
 - GET /:id/download → Download poster (Auth required, only free posters)
-- POST /:id/buy → Buy poster (Auth required)
 
 ## ❤️ Favorites (/api/v1/favorites)
 - POST / → Add poster to favorites
 - GET / → Get all favorites for logged-in user
 - DELETE /:posterId → Remove poster from favorites
+
+  ## 👨 Reviews (/api/v1/reviews)
+- POST / → Add new review (Admin only)
+- GET / → Get all reviews (Admin only)
+- DELETE /:id → Remove review
+
+  ## 👨 Stripe (/api/v1/stripe)
+- POST /create-checkout-session → Go to Stripe check-out (self)
+
 
 ## Authentication & Roles
 Users authenticate via JWT (Authorization: Bearer <token>).
