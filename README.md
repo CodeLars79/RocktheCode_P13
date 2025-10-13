@@ -80,12 +80,12 @@ Ensure you have the following installed:
 - GET / → Get all favorites for logged-in user
 - DELETE /:posterId → Remove poster from favorites
 
-  ## 👨 Reviews (/api/v1/reviews)
+## 👨 Reviews (/api/v1/reviews)
 - POST / → Add new review (Admin only)
 - GET / → Get all reviews (Admin only)
 - DELETE /:id → Remove review
 
-  ## 👨 Stripe (/api/v1/stripe)
+## 🛒 Stripe (/api/v1/stripe)
 - POST /create-checkout-session → Go to Stripe check-out (self)
 
 
