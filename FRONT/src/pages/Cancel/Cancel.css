@@ -1,0 +1,25 @@
+.cancel {
+  height: 100svh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cancel h2 {
+  font-family: var(--font-family-secondary);
+  font-size: var(--font-size-l);
+  color: var(--color-text);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.cancel p {
+  font-size: 30px;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.cancel button {
+  margin-top: 100px;
+}

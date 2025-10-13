@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap');
+
+:root {
+  /* COLORS */
+  --color-primary: #d2c1b6; /* Beige */
+  --color-background: #f6f9fc;
+  --color-text: #0a2540; /* Gray-blue */
+  --color-muted: #d4d4d4; /* Gray-light */
+
+  /* FONTS */
+  --font-family-base: 'Geist', sans-serif;
+  --font-family-secondary: 'Literata', serif;
+  --font-size-base: 16px;
+  --font-size-s: 1rem;
+  --font-size-sm: 2rem;
+  --font-size-l: 4rem;
+  --font-weight-normal: 400;
+  --font-weight-bold: 600;
+
+  /* SPACING */
+  --spacing-xs: 0.25rem;
+  --spacing-s: 0.5rem;
+  --spacing-m: 1rem;
+  --spacing-l: 2rem;
+  --spacing-xl: 4rem;
+
+  /* BORDER RADIUS */
+  --radius-s: 4px;
+  --radius-m: 8px;
+  --radius-l: 24px;
+
+  /* ICONS */
+  --icon-s: 20px;
+  --icon-l: 32px;
+}
+
+/* RESET */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: 400;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  line-height: 1.2;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+ul,
+ol {
+  list-style: none;
+}
