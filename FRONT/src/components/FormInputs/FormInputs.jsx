@@ -10,15 +10,22 @@ export const TextInput = ({
 }) => (
   <>
     <label>{label}</label>
-    <input type={type} {...register(name || label.toLowerCase(), required)} />
+    <input
+      type={type}
+      className={error ? 'error-field' : ''}
+      {...register(name || label.toLowerCase(), required)}
+    />
     {error && <p className='error'>{error.message}</p>}
   </>
 )
 
-export const SelectInput = ({ label, register, options, error }) => (
+export const SelectInput = ({ label, register, options, required, error }) => (
   <>
     <label>{label}</label>
-    <select {...register(label.toLowerCase())}>
+    <select
+      className={error ? 'error-field' : ''}
+      {...register(label.toLowerCase(), required)}
+    >
       <option value=''>Select {label.toLowerCase()}</option>
       {options.map((opt) => (
         <option key={opt} value={opt}>
@@ -36,6 +43,7 @@ export const FileInput = ({ label, register, required, error }) => (
     <input
       type='file'
       accept='image/*'
+      className={error ? 'error-field' : ''}
       {...register(label.toLowerCase(), required)}
     />
     {error && <p className='error'>{error.message}</p>}
