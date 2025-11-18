@@ -17,6 +17,8 @@ const createCheckoutSession = async (req, res, next) => {
         .json({ message: 'Poster is free; no payment required.' })
     }
 
+    const frontendUrl = process.env.FRONTEND_URL
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
@@ -33,19 +35,17 @@ const createCheckoutSession = async (req, res, next) => {
           quantity: 1
         }
       ],
-      success_url: 'http://localhost:5173/success', // frontend success page
-      cancel_url: 'http://localhost:5173/cancel' // frontend cancel page
+      success_url: `${frontendUrl}/success`,
+      cancel_url: `${frontendUrl}/cancel`
     })
 
     res.json({ url: session.url })
   } catch (error) {
     console.error('Stripe session error:', error)
-    res
-      .status(500)
-      .json({
-        message: 'Error creating checkout session',
-        error: error.message
-      })
+    res.status(500).json({
+      message: 'Error creating checkout session',
+      error: error.message
+    })
   }
 }
 
