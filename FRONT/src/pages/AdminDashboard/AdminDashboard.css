@@ -72,6 +72,11 @@
   text-align: left;
 }
 
+input.error-field,
+select.error-field {
+  border: 2px solid #ff4d6d !important;
+}
+
 .button-wrapper {
   position: absolute;
   bottom: var(--spacing-l);

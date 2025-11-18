@@ -19,9 +19,7 @@ const AdminDashboard = () => {
   const token = localStorage.getItem('token')
 
   useEffect(() => {
-    if (!token) {
-      navigate('/admin')
-    }
+    if (!token) navigate('/admin')
   }, [token, navigate])
 
   const showSuccess = (message) => {
@@ -29,99 +27,60 @@ const AdminDashboard = () => {
     setShowAlert(true)
   }
 
-  // Forms
+  // CREATE POSTER FORM
   const {
     register: registerCreatePoster,
     handleSubmit: handleSubmitCreatePoster,
     reset: resetCreatePoster,
     formState: { errors: errorsCreatePoster }
   } = useForm()
-  const {
-    register: registerDeletePoster,
-    handleSubmit: handleSubmitDeletePoster,
-    reset: resetDeletePoster,
-    formState: { errors: errorsDeletePoster }
-  } = useForm()
+
+  // CREATE REVIEW FORM
   const {
     register: registerCreateReview,
     handleSubmit: handleSubmitCreateReview,
     reset: resetCreateReview,
     formState: { errors: errorsCreateReview }
   } = useForm()
-  const {
-    register: registerDeleteReview,
-    handleSubmit: handleSubmitDeleteReview,
-    reset: resetDeleteReview,
-    formState: { errors: errorsDeleteReview }
-  } = useForm()
 
-  // CREATE POSTER
+  // CREATE POSTER HANDLER
   const onCreatePoster = async (data) => {
     try {
       const formData = new FormData()
       formData.append('title', data.title)
-      formData.append('year', data.year || '')
+      formData.append('year', data.year)
       formData.append('price', data.price || 0)
       formData.append('isFree', data.isfree === 'true')
 
-      const toArray = (value) =>
-        value
-          ? value
-              .split(',')
-              .map((v) => v.trim())
-              .filter(Boolean)
-          : []
+      formData.append('color', JSON.stringify([data.color]))
+      formData.append('format', JSON.stringify([data.format]))
+      formData.append('orientation', JSON.stringify([data.orientation]))
+      formData.append('style', JSON.stringify([data.style]))
+      formData.append('dimensions', JSON.stringify([data.dimensions]))
 
-      formData.append('color', JSON.stringify(toArray(data.color)))
-      formData.append('format', JSON.stringify(toArray(data.format)))
-      formData.append('orientation', JSON.stringify(toArray(data.orientation)))
-      formData.append('style', JSON.stringify(toArray(data.style)))
-      formData.append('dimensions', JSON.stringify(toArray(data.dimensions)))
+      if (data.image?.[0]) {
+        formData.append('image', data.image[0])
+      }
 
-      if (data.image && data.image[0]) formData.append('image', data.image[0])
-
-      const result = await apiFetch(
-        '/posters',
-        { method: 'POST', body: formData },
-        token
-      )
+      await apiFetch('/posters', { method: 'POST', body: formData }, token)
       showSuccess('Poster created successfully!')
       resetCreatePoster()
-      console.log(result)
     } catch (error) {
-      console.error('Error creating poster:', error)
       setAlertMessage(error.message || 'Error creating poster')
       setShowAlert(true)
     }
   }
 
-  // DELETE POSTER
-  const onDeletePoster = async (data) => {
-    try {
-      const result = await apiFetch(
-        `/posters/${data.idToDelete}`,
-        { method: 'DELETE' },
-        token
-      )
-      showSuccess('Poster deleted successfully!')
-      resetDeletePoster()
-      console.log(result)
-    } catch (error) {
-      console.error('Error deleting poster:', error)
-      setAlertMessage(error.message || 'Error deleting poster')
-      setShowAlert(true)
-    }
-  }
-
-  // CREATE REVIEW
+  // CREATE REVIEW HANDLER
   const onCreateReview = async (data) => {
     try {
       const reviewData = {
         name: data.name,
         text: data.text,
-        rating: data.rating ? Number(data.rating) : 5
+        rating: Number(data.rating)
       }
-      const result = await apiFetch(
+
+      await apiFetch(
         '/reviews',
         {
           method: 'POST',
@@ -130,34 +89,16 @@ const AdminDashboard = () => {
         },
         token
       )
+
       showSuccess('Review created successfully!')
       resetCreateReview()
-      console.log(result)
     } catch (error) {
-      console.error('Error creating review:', error)
       setAlertMessage(error.message || 'Error creating review')
       setShowAlert(true)
     }
   }
 
-  // DELETE REVIEW
-  const onDeleteReview = async (data) => {
-    try {
-      const result = await apiFetch(
-        `/reviews/${data.reviewId}`,
-        { method: 'DELETE' },
-        token
-      )
-      showSuccess('Review deleted successfully!')
-      resetDeleteReview()
-      console.log(result)
-    } catch (error) {
-      console.error('Error deleting review:', error)
-      setAlertMessage(error.message || 'Error deleting review')
-      setShowAlert(true)
-    }
-  }
-
+  // Select options
   const colorOptions = ['Black', 'Earth', 'Mint', 'Sand', 'Sky', 'Sun', 'White']
   const formatOptions = ['jpg', 'svg']
   const orientationOptions = ['Landscape', 'Portrait', 'Square', 'Circle']
@@ -170,6 +111,7 @@ const AdminDashboard = () => {
     <div className='dashboard-page'>
       <h2>Welcome, Admin!</h2>
 
+      {/* CREATE POSTER */}
       <FormCard title='Create Poster'>
         <form onSubmit={handleSubmitCreatePoster(onCreatePoster)}>
           <TextInput
@@ -178,73 +120,85 @@ const AdminDashboard = () => {
             required={{ required: 'Title is required' }}
             error={errorsCreatePoster.title}
           />
+
           <TextInput
             label='Year'
-            register={registerCreatePoster}
             type='number'
+            register={registerCreatePoster}
+            required={{ required: 'Year is required' }}
+            error={errorsCreatePoster.year}
           />
+
           <SelectInput
             label='Color'
             register={registerCreatePoster}
             options={colorOptions}
+            required={{ required: 'Color is required' }}
+            error={errorsCreatePoster.color}
           />
+
           <SelectInput
             label='Format'
             register={registerCreatePoster}
             options={formatOptions}
+            required={{ required: 'Format is required' }}
+            error={errorsCreatePoster.format}
           />
+
           <SelectInput
             label='Orientation'
             register={registerCreatePoster}
             options={orientationOptions}
+            required={{ required: 'Orientation is required' }}
+            error={errorsCreatePoster.orientation}
           />
+
           <SelectInput
             label='Style'
             register={registerCreatePoster}
             options={styleOptions}
+            required={{ required: 'Style is required' }}
+            error={errorsCreatePoster.style}
           />
+
           <SelectInput
             label='Dimensions'
             register={registerCreatePoster}
             options={dimensionsOptions}
+            required={{ required: 'Dimensions are required' }}
+            error={errorsCreatePoster.dimensions}
           />
+
           <SelectInput
             label='Price'
             register={registerCreatePoster}
             options={priceOptions}
+            required={{ required: 'Price is required' }}
+            error={errorsCreatePoster.price}
           />
+
           <SelectInput
             label='IsFree'
             register={registerCreatePoster}
             options={['true', 'false']}
+            required={{ required: 'IsFree is required' }}
+            error={errorsCreatePoster.isfree}
           />
+
           <FileInput
             label='Image'
             register={registerCreatePoster}
             required={{ required: 'Image is required' }}
             error={errorsCreatePoster.image}
           />
+
           <div className='button-wrapper'>
             <Button text='Create Poster' type='submit' variant='primary' />
           </div>
         </form>
       </FormCard>
 
-      <FormCard title='Delete Poster'>
-        <form onSubmit={handleSubmitDeletePoster(onDeletePoster)}>
-          <TextInput
-            label='Poster ID'
-            name='idToDelete'
-            register={registerDeletePoster}
-            required={{ required: 'ID is required' }}
-            error={errorsDeletePoster.idToDelete}
-          />
-          <div className='button-wrapper'>
-            <Button text='Delete Poster' type='submit' variant='primary' />
-          </div>
-        </form>
-      </FormCard>
-
+      {/* CREATE REVIEW */}
       <FormCard title='Create Review'>
         <form onSubmit={handleSubmitCreateReview(onCreateReview)}>
           <TextInput
@@ -253,34 +207,24 @@ const AdminDashboard = () => {
             required={{ required: 'Name is required' }}
             error={errorsCreateReview.name}
           />
+
           <TextInput
             label='Text'
             register={registerCreateReview}
             required={{ required: 'Text is required' }}
             error={errorsCreateReview.text}
           />
+
           <SelectInput
             label='Rating'
             register={registerCreateReview}
             options={ratingOptions}
+            required={{ required: 'Rating is required' }}
+            error={errorsCreateReview.rating}
           />
+
           <div className='button-wrapper'>
             <Button text='Create Review' type='submit' variant='primary' />
-          </div>
-        </form>
-      </FormCard>
-
-      <FormCard title='Delete Review'>
-        <form onSubmit={handleSubmitDeleteReview(onDeleteReview)}>
-          <TextInput
-            label='Review ID'
-            name='reviewId'
-            register={registerDeleteReview}
-            required={{ required: 'Review ID is required' }}
-            error={errorsDeleteReview.reviewId}
-          />
-          <div className='button-wrapper'>
-            <Button text='Delete Review' type='submit' variant='primary' />
           </div>
         </form>
       </FormCard>
