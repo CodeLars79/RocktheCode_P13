@@ -9,6 +9,7 @@ import './Register.css'
 const Register = () => {
   const [alertMessage, setAlertMessage] = useState('')
   const [showAlert, setShowAlert] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const navigate = useNavigate()
 
   const {
@@ -28,16 +29,18 @@ const Register = () => {
         password: data.password
       }
 
-      const result = await apiFetch('/users/register', {
+      await apiFetch('/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
 
       setAlertMessage('Registration successful! Redirecting to login...')
+      setIsSuccess(true)
       setShowAlert(true)
     } catch (error) {
       setAlertMessage(`Registration failed: ${error.message}`)
+      setIsSuccess(false)
       setShowAlert(true)
     }
   }
@@ -50,7 +53,9 @@ const Register = () => {
           onClose={() => setShowAlert(false)}
           onConfirm={() => {
             setShowAlert(false)
-            navigate('/login')
+            if (isSuccess) {
+              navigate('/login')
+            }
           }}
         />
       )}
